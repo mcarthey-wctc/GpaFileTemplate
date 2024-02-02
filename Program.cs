@@ -72,7 +72,7 @@ namespace CourseGPAFile
             if (File.Exists(file))
             {
                 StreamReader sr = new StreamReader(file);
-                sr.ReadLine();
+                sr.ReadLine(); // skip first line (i.e. headers in file)
 
                 int i = 0;
                 while (!sr.EndOfStream) 
