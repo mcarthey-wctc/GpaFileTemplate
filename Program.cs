@@ -28,9 +28,28 @@ namespace CourseGPAFile
                 }
                 else if (choice == "2")
                 {
+                    // TODO: ADD LOOP
+                    // TODO: BREAK INTO METHODS
                     // write file from data
+                    StreamWriter sw = new StreamWriter(file, true);
 
+                    Console.WriteLine("Enter a course (Y/N)?");
+                    var response = Console.ReadLine().ToUpper();
+
+                    if (response != "Y") { break; }
+
+                    Console.WriteLine("Enter the course name.");
+                    string name = Console.ReadLine();
+
+                    Console.WriteLine("Enter the course grade.");
+                    string grade = Console.ReadLine().ToUpper();
+
+                    sw.WriteLine("{0}|{1}", name, grade);
+
+                    sw.Close();
                 } 
+
+
             } while (choice == "1" || choice == "2");
 
         }
@@ -53,14 +72,21 @@ namespace CourseGPAFile
             if (File.Exists(file))
             {
                 StreamReader sr = new StreamReader(file);
+                sr.ReadLine();
 
                 int i = 0;
                 while (!sr.EndOfStream) 
                 {
                     var row = sr.ReadLine();
-                    var columns = row.Split('|');
+                    var columns = row.Split(',');
 
-                    grades[i] = columns[1];
+                    var courseName = columns[0];
+                    var grade = columns[1];
+
+                    //var watching = columns[6]; // Drew Kjell|John Smith|Bill Jones
+                    //var watchers = watching.Split('|');
+
+                    grades[i] = grade;
                     Console.WriteLine(grades[i]);
                     i++;
                 }
