@@ -48,6 +48,10 @@ jobs:
     steps:
 
     # Ensure that your GitHub Actions workflow is using Node.js 20 for compatibility and to remove warnings
+    # It appears that the actions/checkout and actions/setup-dotnet actions you are using may still be using Node.js 16 internally. 
+    - name: Suppress Node.js 16 deprecation warning
+      run: echo "::set-env name=NODE_OPTIONS::--no-warnings"
+        
     - name: Set up Node.js 20
       uses: actions/setup-node@v2
       with:
