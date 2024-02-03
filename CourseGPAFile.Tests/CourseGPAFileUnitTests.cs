@@ -1,9 +1,12 @@
+using CourseGPAFile.Tests.Models;
+using CourseGPAFile.Tests.Utils;
+
 namespace CourseGPAFile.Tests;
 
 public class CourseGpaFileUnitTests : IDisposable
 {
-    private readonly TextWriter _originalOut;
     private readonly StringWriter _capturedConsoleOut;
+    private readonly TextWriter _originalOut;
 
     public CourseGpaFileUnitTests()
     {
@@ -18,6 +21,21 @@ public class CourseGpaFileUnitTests : IDisposable
         // Reset Console.Out in the Dispose method (teardown)
         Console.SetOut(_originalOut);
         _capturedConsoleOut.Dispose();
+    }
+
+    [Theory]
+    [MemberData(nameof(TestDataGenerator.TestDataForCalculateGrades), MemberType = typeof(TestDataGenerator))]
+    public void CalculateGrades_CalculateCorrectly_ForVariousQuantitiesOfGrades(TestData testData)
+    {
+        // Arrange
+        var grades = testData.Grades;
+
+        // Act
+        Program.CalculateGrades(grades);
+
+        // Assert
+        var result = _capturedConsoleOut.ToString();
+        Assert.Contains(testData.ExpectedGPA, result);
     }
 
     [Fact]
@@ -41,7 +59,7 @@ public class CourseGpaFileUnitTests : IDisposable
         // Arrange
         var fileName = Path.GetTempFileName();
         var expectedGrades = new[] {"A", "B", "C", "D", "F"};
-        File.WriteAllLines(fileName, new[] {"Header", "Course1|A", "Course2|B", "Course3|C", "Course4|D", "Course5|F" });
+        File.WriteAllLines(fileName, new[] {"Header", "Course1|A", "Course2|B", "Course3|C", "Course4|D", "Course5|F"});
 
         // Act
         var grades = Program.ReadFile(fileName);
