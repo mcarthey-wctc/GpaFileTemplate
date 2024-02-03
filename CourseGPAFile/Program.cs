@@ -3,7 +3,7 @@ using System.IO;
 
 namespace CourseGPAFile
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -54,7 +54,7 @@ namespace CourseGPAFile
 
         }
 
-        private static void CalculateGrades(string[] grades)
+        public static void CalculateGrades(string[] grades)
         {
             int gradePoints = 0;
             for (int i = 0; i < grades.Length; i++)
@@ -66,31 +66,27 @@ namespace CourseGPAFile
             Console.WriteLine("GPA: {0:N2}", GPA);
         }
 
-        private static string[] ReadFile(string file)
+        public static string[] ReadFile(string file)
         {
             string[] grades = new string[5];
             if (File.Exists(file))
             {
-                StreamReader sr = new StreamReader(file);
-                sr.ReadLine(); // skip first line (i.e. headers in file)
-
-                int i = 0;
-                while (!sr.EndOfStream) 
+                // Using statement ensures the StreamReader is closed after use
+                using (StreamReader sr = new StreamReader(file))
                 {
-                    var row = sr.ReadLine();
-                    var columns = row.Split(',');
+                    sr.ReadLine(); // skip first line
 
-                    var courseName = columns[0];
-                    var grade = columns[1];
+                    int i = 0;
+                    while (!sr.EndOfStream)
+                    {
+                        var row = sr.ReadLine();
+                        var columns = row.Split(',');
 
-                    //var watching = columns[6]; // Drew Kjell|John Smith|Bill Jones
-                    //var watchers = watching.Split('|');
-
-                    grades[i] = grade;
-                    Console.WriteLine(grades[i]);
-                    i++;
+                        grades[i] = columns[1]; // Assuming second column is grades
+                        Console.WriteLine(grades[i]);
+                        i++;
+                    }
                 }
-
             }
             else
             {
@@ -99,6 +95,7 @@ namespace CourseGPAFile
 
             return grades;
         }
+
     }
 }
 
