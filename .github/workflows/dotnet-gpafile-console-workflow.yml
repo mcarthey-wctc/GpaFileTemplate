@@ -49,7 +49,7 @@ jobs:
 
     # Ensure that your GitHub Actions workflow is using Node.js 20 for compatibility and to remove warnings
     - name: Set up Node.js 20
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v2
       with:
         node-version: 20
         
