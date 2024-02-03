@@ -46,16 +46,23 @@ jobs:
       Test_Project_Path: CourseGPAFile.Tests\CourseGPAFile.Tests.csproj      # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
 
     steps:
+
+    # Ensure that your GitHub Actions workflow is using Node.js 20 for compatibility and to remove warnings
+    - name: Set up Node.js 20
+      uses: actions/setup-node@v2
+      with:
+        node-version: 20
+        
     # This is useful for tasks that require the full project history, such as generating a complete build version number based on the number of commits
     # Fetching the full history can increase the time taken for the checkout step, so it's often omitted unless your specific workflow requires it.
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
       with:
         fetch-depth: 0
 
     # Install the .NET Core workload
     - name: Install .NET Core
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
     
