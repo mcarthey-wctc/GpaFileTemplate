@@ -1,0 +1,65 @@
+# This workflow will build, test, sign and package a WPF or Windows Forms desktop application
+# built on .NET Core.
+# To learn how to migrate your existing application to .NET Core,
+# refer to https://docs.microsoft.com/en-us/dotnet/desktop-wpf/migration/convert-project-from-net-framework
+#
+# Configure environment variables
+# GitHub sets default environment variables for every workflow run.
+# Replace the variables relative to your project in the "env" section below.
+#
+# For more information on GitHub Actions, refer to https://github.com/features/actions
+# For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
+# refer to https://github.com/microsoft/github-actions-for-desktop-apps
+
+name: .NET Core Application Test Workflow
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+
+    runs-on: windows-latest  # For a list of available runner types, refer to
+                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+
+    env:
+      Solution_Name: CourseGPAFile.sln                                       # Replace with your solution name, i.e. MyWpfApp.sln.
+      Test_Project_Path: CourseGPAFile.Tests\CourseGPAFile.Tests.csproj      # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+
+    steps:
+    # This is useful for tasks that require the full project history, such as generating a complete build version number based on the number of commits
+    # Fetching the full history can increase the time taken for the checkout step, so it's often omitted unless your specific workflow requires it.
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    
+    # In modern .NET project configurations, it's not strictly necessary to explicitly execute dotnet restore because dotnet build includes an implicit restore step. 
+    # However, explicitly calling dotnet restore can be beneficial in continuous integration (CI) environments for clarity, explicit dependency restoration, 
+    # or to address specific issues related to dependency resolution. For most scenarios, relying on the implicit restore during the build process is sufficient and simplifies the workflow.
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    # Execute all unit tests in the solution
+    - name: Execute unit tests
+      run: dotnet test
+      
+
