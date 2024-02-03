@@ -64,7 +64,7 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     
     # In modern .NET project configurations, it's not strictly necessary to explicitly execute dotnet restore because dotnet build includes an implicit restore step. 
     # However, explicitly calling dotnet restore can be beneficial in continuous integration (CI) environments for clarity, explicit dependency restoration, 
