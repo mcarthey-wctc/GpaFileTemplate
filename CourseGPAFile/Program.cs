@@ -80,7 +80,7 @@ namespace CourseGPAFile
                     while (!sr.EndOfStream)
                     {
                         var row = sr.ReadLine();
-                        var columns = row.Split(',');
+                        var columns = row.Split('|');
 
                         grades[i] = columns[1]; // Assuming second column is grades
                         Console.WriteLine(grades[i]);

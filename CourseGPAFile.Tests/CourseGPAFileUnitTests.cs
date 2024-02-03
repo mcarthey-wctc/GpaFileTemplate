@@ -41,7 +41,7 @@ public class CourseGpaFileUnitTests : IDisposable
         // Arrange
         var fileName = Path.GetTempFileName();
         var expectedGrades = new[] {"A", "B", "C", "D", "F"};
-        File.WriteAllLines(fileName, new[] {"Header", "Course1,A", "Course2,B", "Course3,C", "Course4,D", "Course5,F"});
+        File.WriteAllLines(fileName, new[] {"Header", "Course1|A", "Course2|B", "Course3|C", "Course4|D", "Course5|F" });
 
         // Act
         var grades = Program.ReadFile(fileName);
