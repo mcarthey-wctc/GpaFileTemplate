@@ -59,7 +59,7 @@ namespace CourseGPAFile
             int gradePoints = 0;
             for (int i = 0; i < grades.Length; i++)
             {
-                gradePoints += grades[1] == "A" ? 4 : grades[1] == "B" ? 3 : grades[1] == "C" ? 2 : grades[1] == "D" ? 1 : 0;
+                gradePoints += grades[i] == "A" ? 4 : grades[i] == "B" ? 3 : grades[i] == "C" ? 2 : grades[i] == "D" ? 1 : 0;
             }
 
             double GPA = (double)gradePoints / grades.Length;
